@@ -7,6 +7,16 @@
 
 #include "dht11_22.h"
 
+#ifdef DHT11_22_USE_POWER_PIN
+#   if (!defined(DHT11_22_POWER_PIN) || !defined(DHT11_22_POWER_TRIS))
+#       warning "DHT11_22_POWER_PIN and DHT11_22_POWER_TRIS must be defined"
+#   endif
+#endif
+
+#if (!defined(DHT11_22_DATA_TRIS) || !defined(DHT11_22_DATA_IN) || !defined(DHT11_22_DATA_OUT))
+#   warning "DHT11_22_DATA_TRIS, DHT11_22_DATA_IN and DHT11_22_DATA_OUT must be defined"
+#endif
+
 #ifdef DHT11_22_TYPE_DHT22
 #   define wait_init() { for (uint8_t _i = 0; _i < 150; ++_i) __delay_ms(10); }
 #   define wait_req()  __delay_ms(1)

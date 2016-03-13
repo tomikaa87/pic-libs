@@ -17,7 +17,7 @@
 extern "C" {
 #endif
    
-typedef uint8_t ds18x20_rom_code[8];
+typedef uint8_t ds18x20_rom_code_t[8];
 
 typedef enum
 {
@@ -38,14 +38,14 @@ typedef struct
 } ds18x20_info_t;
     
 int16_t ds18x20_read_one();
-int16_t ds18x20_read(ds18x20_rom_code sensor);
+int16_t ds18x20_read(ds18x20_rom_code_t sensor);
 
 // Enumerates all (max. 'count' number of) sensors on the bus. 
 // Sensor ROM codes will be put into 'sensors'. 'count' will hold the
 // number of sensors found.
-ds18x20_result_t ds18x20_enumerate(ds18x20_rom_code* sensors, uint8_t* count);
+ds18x20_result_t ds18x20_enumerate(ds18x20_rom_code_t* sensors, uint8_t* count);
 
-ds18x20_info_t ds18x20_get_info(ds18x20_rom_code sensor);
+ds18x20_info_t ds18x20_get_info(ds18x20_rom_code_t sensor);
     
 #ifdef	__cplusplus
 }

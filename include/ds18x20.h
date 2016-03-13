@@ -17,7 +17,13 @@
 extern "C" {
 #endif
    
-typedef uint8_t ds18x20_rom_code_t[8];
+//typedef uint8_t ds18x20_rom_code_t[8];
+
+typedef struct
+{
+    uint8_t rom_codes[DS18X20_MAX_SENSORS][8];
+    uint8_t sensor_count;
+} ds18x20_sensors_t;
 
 typedef enum
 {
@@ -27,6 +33,7 @@ typedef enum
 
 typedef enum
 {
+    DS18X20_UNKNOWN_SENSOR,
     DS18X20_DS18S20,
     DS18X20_DS18B20
 } ds18x20_sensor_type_t;
@@ -36,16 +43,24 @@ typedef struct
     ds18x20_sensor_type_t sensor_type;
     uint8_t rom_code_crc;
 } ds18x20_info_t;
-    
+
+// Starts temperature conversion on all sensors.
+void ds18x20_do_conversion();
+
+// Use this read function if you have only one sensor on the bus.
+// The temperature returned is multiplied by 10 to avoid using float value.
 int16_t ds18x20_read_one();
-int16_t ds18x20_read(ds18x20_rom_code_t sensor);
 
-// Enumerates all (max. 'count' number of) sensors on the bus. 
-// Sensor ROM codes will be put into 'sensors'. 'count' will hold the
-// number of sensors found.
-ds18x20_result_t ds18x20_enumerate(ds18x20_rom_code_t* sensors, uint8_t* count);
+// Use this read function if you have multiple sensors on the bus.
+// The temperature returned is multiplied by 10 to avoid using float value.
+int16_t ds18x20_read(ds18x20_sensors_t* sensors, uint8_t index);
 
-ds18x20_info_t ds18x20_get_info(ds18x20_rom_code_t sensor);
+// Enumerates all (max. 'DS18X20_MAX_SENSORS' number of) sensors on the bus. 
+// Sensor ROM codes will be put into 'sensors.rom_codes'. 
+// 'sensors.sensor_count' will hold the number of sensors found.
+ds18x20_result_t ds18x20_enumerate(ds18x20_sensors_t* sensors);
+
+ds18x20_info_t ds18x20_get_info(ds18x20_sensors_t* sensors, uint8_t index);
     
 #ifdef	__cplusplus
 }

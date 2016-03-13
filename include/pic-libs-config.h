@@ -19,6 +19,8 @@ extern "C" {
 #define PIC_LIBS_USE_MODULE_DHT11_22
 #define PIC_LIBS_USE_MODULE_LCD
     
+#define DS18X20_MAX_SENSORS 1
+    
 #define ONE_WIRE_PIN        (PORTAbits.RA0)
 #define ONE_WIRE_TRIS       (TRISAbits.TRISA0)
 

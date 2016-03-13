@@ -1,5 +1,5 @@
 //
-// Dallas 1-wire driver header
+// Dallas 1-wire driver
 // pic-libs
 //
 // Created by Tamas Karpati on 2016-03-13.

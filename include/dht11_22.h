@@ -26,11 +26,11 @@ typedef enum
     DHT11_22_ERR_COMM
 } dht11_22_result_t;
 
-// Stores the sensor values which are multiplied by 10 to avoid using float
+// Stores the sensor values
 typedef struct
 {
-    int16_t rel_hum_x10;
-    int16_t temp_x10;
+    int16_t rel_hum;
+    int16_t temp;
 } dht11_22_values_t;
 
 // Reads the sensor and puts the result into 'values'

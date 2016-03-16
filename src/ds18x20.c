@@ -111,7 +111,7 @@ static void write_scratchpad(uint8_t* scratchpad)
         one_wire_write_byte(scratchpad[i + 2]);
 }
 
-int16_t convert_celsius_mul100(uint8_t family, uint8_t msb, uint8_t lsb, uint8_t resolution)
+static int16_t convert_celsius_mul100(uint8_t family, uint8_t msb, uint8_t lsb, uint8_t resolution)
 {
     int16_t raw = msb * 256 + lsb;
     if (raw & 0x8000)
@@ -119,14 +119,14 @@ int16_t convert_celsius_mul100(uint8_t family, uint8_t msb, uint8_t lsb, uint8_t
     
     int16_t temp = 0;
     
-    if (family == 0x28)
+    if (family == DS18X20_DS18B20)
     {
         uint8_t mask = ~(0x0f >> (resolution - 8)) & 0x0f;
         int8_t temp_int = raw >> 4;
         uint16_t temp_frac = (raw & mask) * 625;
         temp = temp_int * 100 + temp_frac / 100;
     }
-    else if (family == 0x10)
+    else if (family == DS18X20_DS18S20)
     {
         temp = (raw >> 1) * 100 + ((raw & 1) * 50);
     }
@@ -136,7 +136,7 @@ int16_t convert_celsius_mul100(uint8_t family, uint8_t msb, uint8_t lsb, uint8_t
     return temp;
 }
 
-float convert_celsius(uint8_t family, uint8_t msb, uint8_t lsb, uint8_t resolution)
+static float convert_celsius(uint8_t family, uint8_t msb, uint8_t lsb, uint8_t resolution)
 {
     int16_t raw = msb * 256 + lsb;
     if (raw & 0x8000)
@@ -144,14 +144,14 @@ float convert_celsius(uint8_t family, uint8_t msb, uint8_t lsb, uint8_t resoluti
     
     float temp = 0;
     
-    if (family == 0x28)
+    if (family == DS18X20_DS18B20)
     {
         uint8_t mask = ~(0x0f >> (resolution - 8)) & 0x0f;
         int8_t temp_int = raw >> 4;
         uint16_t temp_frac = (raw & mask) * 625;
         temp = temp_int + temp_frac / 10000.0f;
     }
-    else if (family == 0x10)
+    else if (family == DS18X20_DS18S20)
     {
         temp = (raw >> 1) + ((raw & 1) * 0.5f);
     }

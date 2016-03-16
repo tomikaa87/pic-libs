@@ -23,6 +23,7 @@ void ds18x20_print_info(ds18x20_sensors_t* sensors, uint8_t index);
 #endif
 
 #define delay_10us(x) { for (uint8_t _i = 0; _i < x; ++_i) __delay_us(10); }
+#define delay_10ms(x) { for (uint8_t _i = 0; _i < x; ++_i) __delay_ms(10); }
 
 // ROM commands
 #define CMD_SEARCH_ROM          0xf0
@@ -177,7 +178,9 @@ void ds18x20_do_conversion()
     one_wire_write_byte(CMD_SKIP_ROM);
     one_wire_write_byte(CMD_CONVERT_T);
     
-    delay_10us(T_CONV_12 / 10);
+    // Since we can have multiple devices on the bus, use the 
+    // longest waiting time.
+    delay_10ms(T_CONV_12 / 10);
 }
 
 void ds18x20_set_resolution(ds18x20_sensors_t* sensors, uint8_t index, ds18x20_resolution_t resolution)

@@ -10,5 +10,4 @@
 
 void main()
 {
-    float tmp = ds18x20_read(0, 0);
 }

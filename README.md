@@ -5,3 +5,4 @@ Various hardware libraries for Microchip PICs:
  - DHT11/DHT22 digital humidity and temperature sensor
  - Dallas 1-wire bus driver
  - HD44780/KS0066 compatible alphanumeric LCD driver
+ - Dallas DS1307 I2C Real-Time Clock

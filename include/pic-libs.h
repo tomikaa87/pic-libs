@@ -28,6 +28,14 @@ extern "C" {
 #ifdef PIC_LIBS_USE_MODULE_DHT11_22
 #   include "dht11_22.h"
 #endif
+    
+#ifdef PIC_LIBS_USE_MODULE_LCD
+#   include "lcd.h"
+#endif
+    
+#ifdef PIC_LIBS_USE_MODULE_DS1307
+#   include "ds1307.h"
+#endif
 
 #ifdef	__cplusplus
 }

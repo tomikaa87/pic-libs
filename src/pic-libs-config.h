@@ -66,8 +66,10 @@ extern "C" {
 #   define _XTAL_FREQ                  16000000
 #endif
 
-typedef uint8_t (*i2c_read_func_t)(uint8_t dev_addr, uint8_t address, uint8_t* buf, uint8_t count);
-typedef uint8_t (*i2c_write_func_t)(uint8_t dev_addr, uint8_t address, uint8_t* buf, uint8_t count);
+#define PIC_LIBS_USE_MODULE_DS1307
+
+#define I2C_READ_FUNC(_dev_addr, _address, _buf, _count) ()
+#define I2C_WRITE_FUNC(_dev_addr, _address, _buf, _count) ()
     
 #ifdef  __cplusplus
 }

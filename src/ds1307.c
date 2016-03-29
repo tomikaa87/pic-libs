@@ -38,20 +38,6 @@ enum
     DEVICE_ADDR  = 0b11010000
 };
 
-static ds1307_config_t _config;
-
-static uint8_t read_reg(reg_addr_t address)
-{
-    uint8_t buf;
-    _config.i2c_read_func(DEVICE_ADDR, address, &buf, 1);
-    return buf;
-}
-
-static void write_reg(reg_addr_t address, uint8_t value)
-{
-    _config.i2c_write_func(DEVICE_ADDR, address, &value, 1);
-}
-
 static uint8_t bcd_to_dec(uint8_t bcd)
 {
     return (bcd >> 4) * 10 + (bcd & 0x0f);
@@ -62,15 +48,10 @@ static uint8_t dec_to_bcd(uint8_t dec)
     return ((dec % 10) << 4) | (dec / 10);
 }
 
-void ds1307_set_config(ds1307_config_t config)
-{
-    _config = config;
-}
-
 void ds1307_get_date(uint8_t* year, uint8_t* month, uint8_t* day, uint8_t* dow)
 {
     uint8_t buf[4];
-    _config.i2c_read_func(DEVICE_ADDR, REG_DAY, buf, sizeof (buf));
+    I2C_READ_FUNC(DEVICE_ADDR, REG_DAY, buf, sizeof (buf));
     
     *dow = buf[0];
     *day = bcd_to_dec(buf[1]);
@@ -81,7 +62,7 @@ void ds1307_get_date(uint8_t* year, uint8_t* month, uint8_t* day, uint8_t* dow)
 void ds1307_get_time(uint8_t* hour, uint8_t* minute, uint8_t* second, uint8_t* pm)
 {
     uint8_t buf[3];
-    _config.i2c_read_func(DEVICE_ADDR, REG_SECONDS_CH, buf, sizeof (buf));
+    I2C_READ_FUNC(DEVICE_ADDR, REG_SECONDS_CH, buf, sizeof (buf));
     
     *second = bcd_to_dec(buf[0] & REG_MASK_SECONDS);
     *minute = bcd_to_dec(buf[1]);
@@ -110,7 +91,7 @@ void ds1307_set_date(uint8_t year, uint8_t month, uint8_t day, uint8_t dow)
     buf[2] = dec_to_bcd(month);
     buf[3] = dec_to_bcd(year);
     
-    _config.i2c_write_func(DEVICE_ADDR, REG_DAY, buf, sizeof (buf));
+    I2C_WRITE_FUNC(DEVICE_ADDR, REG_DAY, buf, sizeof (buf));
 }
 
 void ds1307_set_time(uint8_t hour, uint8_t minute, uint8_t second, uint8_t mode_12h, uint8_t pm)
@@ -124,19 +105,19 @@ void ds1307_set_time(uint8_t hour, uint8_t minute, uint8_t second, uint8_t mode_
     else
         buf[2] = dec_to_bcd(hour) & REG_MASK_HOUR_24h;
     
-    _config.i2c_write_func(DEVICE_ADDR, REG_SECONDS_CH, buf, sizeof (buf));
+    I2C_WRITE_FUNC(DEVICE_ADDR, REG_SECONDS_CH, buf, sizeof (buf));
 }
 
 uint8_t ds1307_get_control_reg()
 {
     uint8_t buf;
-    _config.i2c_read_func(DEVICE_ADDR, REG_CONTROL, &buf, 1);
+    I2C_READ_FUNC(DEVICE_ADDR, REG_CONTROL, &buf, 1);
     return buf;
 }
 
 void ds1307_set_control_reg(uint8_t value)
 {
-    _config.i2c_write_func(DEVICE_ADDR, REG_CONTROL, &value, 1);
+    I2C_WRITE_FUNC(DEVICE_ADDR, REG_CONTROL, &value, 1);
 }
 
 uint8_t ds1307_read_ram(uint8_t offset, uint8_t* buf, uint8_t count)
@@ -145,7 +126,7 @@ uint8_t ds1307_read_ram(uint8_t offset, uint8_t* buf, uint8_t count)
     if (read_count == 0)
         return 0;
     
-    _config.i2c_read_func(DEVICE_ADDR, REG_RAM_BASE + offset, buf, read_count);
+    I2C_READ_FUNC(DEVICE_ADDR, REG_RAM_BASE + offset, buf, read_count);
     
     return read_count;
 }
@@ -156,7 +137,7 @@ uint8_t ds1307_write_ram(uint8_t offset, uint8_t* buf, uint8_t count)
     if (write_count == 0)
         return 0;
     
-    _config.i2c_write_func(DEVICE_ADDR, REG_RAM_BASE + offset, buf, write_count);
+    I2C_WRITE_FUNC(DEVICE_ADDR, REG_RAM_BASE + offset, buf, write_count);
     
     return write_count;
 }

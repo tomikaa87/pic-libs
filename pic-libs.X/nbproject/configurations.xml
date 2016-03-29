@@ -9,6 +9,7 @@
       <itemPath>../include/ds18x20.h</itemPath>
       <itemPath>../include/dht11_22.h</itemPath>
       <itemPath>../include/lcd.h</itemPath>
+      <itemPath>C:/Users/ToMikaa/Workspace/git/pic-libs/include/ds1307.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -22,6 +23,7 @@
       <itemPath>../src/one-wire.c</itemPath>
       <itemPath>../src/dht11_22.c</itemPath>
       <itemPath>C:/Users/ToMikaa/Workspace/git/pic-libs/src/pic-libs-config.h</itemPath>
+      <itemPath>C:/Users/ToMikaa/Workspace/git/pic-libs/src/lcd.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
